@@ -14,14 +14,38 @@ const WMO = {
   95: ["⛈️", "뇌우"], 96: ["⛈️", "우박을 동반한 뇌우"], 99: ["⛈️", "강한 우박 뇌우"],
 };
 
-async function getWeather(name) {
-  const geoRes = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(name)}&count=1&language=ko`
+// Open-Meteo 지오코딩은 한글 검색이 불안정하므로, 주요 도시는 영문명으로 변환해 검색한다.
+const KO_CITIES = {
+  서울: "Seoul", 부산: "Busan", 인천: "Incheon", 대구: "Daegu", 대전: "Daejeon", 광주: "Gwangju",
+  울산: "Ulsan", 세종: "Sejong", 수원: "Suwon", 성남: "Seongnam", 고양: "Goyang", 용인: "Yongin",
+  창원: "Changwon", 청주: "Cheongju", 전주: "Jeonju", 천안: "Cheonan", 포항: "Pohang", 제주: "Jeju",
+  제주도: "Jeju", 춘천: "Chuncheon", 강릉: "Gangneung", 여수: "Yeosu", 목포: "Mokpo", 안동: "Andong",
+  도쿄: "Tokyo", 오사카: "Osaka", 교토: "Kyoto", 후쿠오카: "Fukuoka", 삿포로: "Sapporo",
+  베이징: "Beijing", 상하이: "Shanghai", 홍콩: "Hong Kong", 타이베이: "Taipei", 방콕: "Bangkok",
+  하노이: "Hanoi", 싱가포르: "Singapore", 마닐라: "Manila", 자카르타: "Jakarta", 델리: "Delhi",
+  두바이: "Dubai", 이스탄불: "Istanbul", 모스크바: "Moscow", 런던: "London", 파리: "Paris",
+  베를린: "Berlin", 로마: "Rome", 마드리드: "Madrid", 바르셀로나: "Barcelona", 암스테르담: "Amsterdam",
+  빈: "Vienna", 취리히: "Zurich", 뉴욕: "New York", 로스앤젤레스: "Los Angeles", 시카고: "Chicago",
+  샌프란시스코: "San Francisco", 시애틀: "Seattle", 토론토: "Toronto", 밴쿠버: "Vancouver",
+  시드니: "Sydney", 멜버른: "Melbourne", 카이로: "Cairo", 상파울루: "Sao Paulo",
+};
+
+async function searchCity(query) {
+  const res = await fetch(
+    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=10&language=ko`
   );
-  if (!geoRes.ok) throw new Error("도시 검색에 실패했습니다.");
-  const geo = await geoRes.json();
-  if (!geo.results || !geo.results.length) throw new Error(`"${name}" 도시를 찾을 수 없습니다.`);
-  const { latitude, longitude, name: city, admin1, country } = geo.results[0];
+  if (!res.ok) throw new Error("도시 검색에 실패했습니다.");
+  const data = await res.json();
+  const list = data.results || [];
+  // 산·하천 등이 아닌 거주지(PPL*)를 우선 선택
+  return list.find((r) => /^PPL/.test(r.feature_code || "")) || list[0];
+}
+
+async function getWeather(name) {
+  const english = KO_CITIES[name.replace(/(특별시|광역시|시)$/, "")] || KO_CITIES[name];
+  const found = (english && (await searchCity(english))) || (await searchCity(name));
+  if (!found) throw new Error(`"${name}" 도시를 찾을 수 없습니다.`);
+  const { latitude, longitude, name: city, admin1, country } = found;
 
   const params = new URLSearchParams({
     latitude, longitude, timezone: "auto",
