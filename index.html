@@ -7,6 +7,41 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="bear" aria-hidden="true">
+  <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+    <!-- 몸 -->
+    <ellipse cx="100" cy="170" rx="52" ry="55" fill="#b9814f"/>
+    <ellipse cx="100" cy="178" rx="32" ry="36" fill="#f3d9b1"/>
+    <!-- 팔·다리 -->
+    <ellipse cx="52" cy="160" rx="16" ry="26" fill="#b9814f" transform="rotate(25 52 160)"/>
+    <ellipse cx="148" cy="160" rx="16" ry="26" fill="#b9814f" transform="rotate(-25 148 160)"/>
+    <ellipse cx="72" cy="222" rx="22" ry="14" fill="#b9814f"/>
+    <ellipse cx="128" cy="222" rx="22" ry="14" fill="#b9814f"/>
+    <ellipse cx="72" cy="224" rx="12" ry="7" fill="#f3d9b1"/>
+    <ellipse cx="128" cy="224" rx="12" ry="7" fill="#f3d9b1"/>
+    <!-- 귀 -->
+    <circle cx="52" cy="48" r="22" fill="#b9814f"/>
+    <circle cx="148" cy="48" r="22" fill="#b9814f"/>
+    <circle cx="52" cy="48" r="12" fill="#f3b6b6"/>
+    <circle cx="148" cy="48" r="12" fill="#f3b6b6"/>
+    <!-- 머리 -->
+    <ellipse cx="100" cy="88" rx="64" ry="56" fill="#b9814f"/>
+    <!-- 주둥이 -->
+    <ellipse cx="100" cy="106" rx="26" ry="20" fill="#f3d9b1"/>
+    <ellipse cx="100" cy="97" rx="9" ry="6" fill="#4a2f1b"/>
+    <path d="M100 103 v8 M100 111 q-8 7 -15 2 M100 111 q8 7 15 2" stroke="#4a2f1b" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- 눈·볼 -->
+    <circle cx="76" cy="80" r="6.5" fill="#2b1a0e"/>
+    <circle cx="124" cy="80" r="6.5" fill="#2b1a0e"/>
+    <circle cx="78" cy="77.5" r="2" fill="#fff"/>
+    <circle cx="126" cy="77.5" r="2" fill="#fff"/>
+    <circle cx="60" cy="100" r="9" fill="#f59aa0" opacity=".6"/>
+    <circle cx="140" cy="100" r="9" fill="#f59aa0" opacity=".6"/>
+    <!-- 이름표 -->
+    <rect x="68" y="150" width="64" height="24" rx="12" fill="#fff"/>
+    <text x="100" y="167" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#c0392b">Kasio</text>
+  </svg>
+</div>
 <main>
   <h1>도시 날씨</h1>
   <form id="search-form">
