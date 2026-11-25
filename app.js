@@ -30,6 +30,12 @@ const KO_CITIES = {
   시드니: "Sydney", 멜버른: "Melbourne", 카이로: "Cairo", 상파울루: "Sao Paulo",
 };
 
+// 가상 도시: API를 호출하지 않고 고정된 날씨를 보여준다.
+const VIRTUAL_CITIES = {
+  김민재: { temp: 36.5, icon: "❤️", desc: "하트 날씨" },
+  한정수: { temp: 36.5, icon: "❤️", desc: "하트 날씨" },
+};
+
 async function searchCity(query) {
   const res = await fetch(
     `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=10&language=ko`
@@ -61,8 +67,22 @@ $("search-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = $("city").value.trim();
   if (!name) return;
-  $("status").textContent = "불러오는 중...";
   $("result").hidden = true;
+  const virtual = VIRTUAL_CITIES[name];
+  if (virtual) {
+    $("place").textContent = `${name} (가상 도시)`;
+    $("icon").textContent = virtual.icon;
+    $("temp").textContent = `${virtual.temp}°C`;
+    $("desc").textContent = virtual.desc;
+    $("feels").textContent = `${virtual.temp}°C`;
+    $("humidity").textContent = "♥";
+    $("wind").textContent = "♥";
+    $("precip").textContent = "♥";
+    $("result").hidden = false;
+    $("status").textContent = "";
+    return;
+  }
+  $("status").textContent = "불러오는 중...";
   try {
     const { place, c, u } = await getWeather(name);
     const [icon, desc] = WMO[c.weather_code] || ["❓", "알 수 없음"];
