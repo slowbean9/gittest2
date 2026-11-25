@@ -21,6 +21,6 @@ li { background: #f0f6fb; border-radius: 8px; padding: 10px; font-size: 14px; di
 li b { font-size: 18px; margin-top: 4px; }
 
 /* 배경 곰인형 Kasio */
-.bear { position: fixed; right: 4vw; bottom: 0; width: min(240px, 45vw); z-index: 0; pointer-events: none; }
+.bear { position: fixed; right: 4vw; bottom: 0; width: min(320px, 55vw); z-index: 0; pointer-events: none; }
 .bear svg { display: block; width: 100%; height: auto; }
 main { position: relative; z-index: 1; }
