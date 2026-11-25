@@ -2,7 +2,7 @@
 body {
   margin: 0; min-height: 100vh; display: flex; justify-content: center;
   font-family: system-ui, "Malgun Gothic", sans-serif;
-  background: linear-gradient(160deg, #4facfe, #00c6fb); color: #123;
+  background: #e53935; color: #123;
 }
 main { width: 100%; max-width: 420px; padding: 40px 16px; }
 h1 { color: #fff; text-align: center; }
